@@ -1,0 +1,28 @@
+{
+  "name": "@postor/react-form",
+  "private": false,
+  "version": "1.0.0",
+  "description": "yet another solution for react forms | 又一个 react 表单的解决方案",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/postor/react-form.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/postor/react-form/issues"
+  },
+  "homepage": "https://github.com/postor/react-form#readme",
+  "devDependencies": {
+    "@types/react": "^17.0.43",
+    "react": "^18.0.0",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {}
+}
