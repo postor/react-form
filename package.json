@@ -1,7 +1,7 @@
 {
   "name": "@postor/react-form",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "yet another solution for react forms | 又一个 react 表单的解决方案",
   "main": "dist/index.js",
   "scripts": {

@@ -1,5 +1,5 @@
 
-import { createContext, FC, useContext, useRef, useState } from "react";
+import { createContext, FC, ReactNode, useContext, useRef, useState } from "react";
 
 type Field = {
   value: string;
@@ -9,7 +9,7 @@ type Field = {
   setValue: (value: string) => void;
 };
 
-type ValidateFn = (val: string) => Promise<void | any>;
+type ValidateFn = (val: string) => Promise<void | any> | void | any;
 
 interface OptionField extends Field {
   validate: ValidateFn;
@@ -44,9 +44,9 @@ export const { Consumer } = Ctx;
 
 export const useForm = () => useContext(Ctx);
 
-export const useField = (name: string) => useForm().getField(name);
+export const useField = (name: string, options: Partial<OptionField> = {}) => useForm().register(name, options);
 
-export const Provider: FC = ({ children }) => {
+export const Provider: FC<{ children: ReactNode | ReactNode[] }> = ({ children }) => {
   let fields = useRef({} as Fields<OptionField>);
   let [ctx, setCtx] = useState({
     validatingFields: [] as string[],
@@ -77,7 +77,7 @@ export const Provider: FC = ({ children }) => {
     return getField(name);
   }
 
-  function getField(name: string): Field {
+  function getField(name: string,): Field {
     return fields.current[name] ? fields.current[name] : getFieldDefaults(name);
   }
 
@@ -102,7 +102,6 @@ export const Provider: FC = ({ children }) => {
     };
 
     const callback = () => {
-
       updateCtx();
       let f = fields.current[name], tid = ++vid;
       if (valueChanged)
@@ -114,7 +113,7 @@ export const Provider: FC = ({ children }) => {
             error: undefined,
             validating: false
           }))
-          .catch((e) => tid == vid && setField(name, {
+          .catch((e: any) => tid == vid && setField(name, {
             error: e,
             validating: false
           }));
