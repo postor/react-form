@@ -22,7 +22,7 @@ type Fields<T> = {
   [key: string]: T;
 };
 
-interface ContextData<T> {
+interface ContextData {
   errorFields: string[];
   formData: { [key: string]: string };
   validatingFields: string[];
@@ -34,11 +34,12 @@ interface ContextData<T> {
   f: (name: string) => Field;
   register: (name: string, options?: Partial<UserOptionField>) => Field;
   setField: (name: string, field: Partial<UserOptionField>) => void;
+  setAllTouched: () => void
 }
 
 let vid = 0
 
-const Ctx = createContext({} as ContextData<Field>);
+const Ctx = createContext({} as ContextData);
 
 export const { Consumer } = Ctx;
 
@@ -56,8 +57,9 @@ export const Provider: FC<{ children: ReactNode | ReactNode[] }> = ({ children }
     f: getField,
     setField,
     formData: {},
-    register
-  } as ContextData<Field>);
+    register,
+    setAllTouched,
+  } as ContextData);
 
   return <Ctx.Provider value={ctx}>{children}</Ctx.Provider>;
 
@@ -155,5 +157,11 @@ export const Provider: FC<{ children: ReactNode | ReactNode[] }> = ({ children }
     let d = {} as { [key: string]: string };
     k.forEach((x) => (d[x] = f[x].value));
     return d;
+  }
+
+  function setAllTouched() {
+    let f = fields.current;
+    let k = Object.keys(f);
+    k.forEach((x) => setField(x, { touched: true }));
   }
 };
